@@ -1,0 +1,31 @@
+name: Flutter iOS Deployment
+
+on:
+  push:
+    branches:
+      - main  # Değiştirilmesi gereken ana dal adı
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.0-2.0.pre.4' # Değiştirilmesi gereken Flutter sürümü
+
+    - name: Install Dependencies
+      run: flutter pub get
+
+    - name: Build iOS
+      run: flutter build ios
+
+    - name: Archive iOS App
+      uses: actions/upload-artifact@v2
+      with:
+        name: ios-build
+        path: ios/Runner.xcodeproj # Değiştirilmesi gereken uygulama yolu
